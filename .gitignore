@@ -6,6 +6,8 @@
 *.toc
 *.aux
 *.synctex.gz
+*.el
+.auctex-auto/
 tmp/
 
 
