@@ -1,0 +1,91 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+% \usepackage{setspace}
+% \onehalfspacing
+% \allowdisplaybreaks
+%
+
+\begin{document}
+\begin{titlepage}
+  \centering
+  \hphantom{}\par
+  \vspace{2cm}
+  \includegraphics[width=0.15\textwidth]{logo.png}\par\vspace{0.5cm}
+  {\LARGE \textsc{University of Oxford}\par}\vspace{0.5cm}
+  {\Large \textsc{Group Design Practical}\par}\vspace{0.5cm}
+  {\large \textsc{Group 14}\par}\vspace{0.7cm}
+  {\Huge Machine Learning in the Browser with the BBC Micro:Bit\par}\vspace{0.8cm}
+  {\large Ike Glassbrook\footnote{\href{mailto:isaac.glassbrook@lmh.ox.ac.uk}{isaac.glassbrook@lmh.ox.ac.uk}}, Louis-Emile Ploix\footnote{\href{mailto:louis-emile.ploix@stcatz.ox.ac.uk}{louis-emile.ploix@stcatz.ox.ac.uk}}, Joseph Simkin\footnote{\href{mailto:joseph.simkin@some.ox.ac.uk}{joseph.simkin@some.ox.ac.uk}}, Alikhan Murat\footnote{\href{mailto:alikhan.murat@magd.ox.ac.uk}{alikhan.murat@magd.ox.ac.uk}}, Andy van Horssen\footnote{\href{mailto:andy.vanhorssen@sjc.ox.ac.uk}{andy.vanhorssen@sjc.ox.ac.uk}}, and Ewan Hawkrigg\footnote{\href{mailto:ewan.hawkrigg@keble.ox.ac.uk}{ewan.hawkrigg@keble.ox.ac.uk}}\par}\vspace{0.7cm}
+  {\large Internal supervisor: Qian Xie\par \vspace{0.3cm} External supervisor: Robert Knight \par}\vspace{1cm}
+  {\Large May 2024}
+\end{titlepage}
+
+\tableofcontents
+
+\section{Introduction}%
+\label{sec:intro}
+
+The Group Design Practical is a course taken by all 2nd year undergraduate students at the University of Oxford studying for a degree in Computer Science, Mathematics and Computer Science, or Computer Science and Philosophy. This report details the work of Group 14 from February to May 2024 to design, implement, and deploy a product satisfying the specification as provided by Micro:Bit.
+
+\subsection{Technical context}%
+\label{subsec:context}
+
+% Detail the current state, explaining the work of Aarhus University
+% Explain the initial build of the project
+
+\subsection{Project Specification}%
+\label{subsec:spec}
+
+In consideration of the existing context, the specifications set out by Micro:Bit were designed with a view to utilise our work for experimental purposes, and to provide a benchmark for evaluating the feasibility of future projects. On this basis, the specification gave the following requirements of a final product:
+\begin{itemize}
+  \item That a user should be able to train any model on not just the Micro:bit's accelerometer, but also an additional sensor.
+        \begin{itemize}
+                \item The user should be able to choose which sensor's data is to be streamed into the training data (and thus, which sensor's data is polled once the model is trained).
+                \item Information given by the sensor should be visualised to the user in real-time in a manner which is understandable.
+                \item The sensor data should be amenable to machine-learning analysis via the models available.
+        \end{itemize}
+  \item In addition to the Dense Neural Network, and the k-Nearest Neighbours models of the base application, a new neural network architecture should be investigated for implementation.
+        \begin{itemize}
+                \item This network should be capable of predicting on simple patterns with reasonable accuracy.
+                \item The technical details of the network should be of pedagogical value, in addition to being amenable to high-level explanation.
+                \item The trained model should be of a size that could fit on the micro:bit itself, rather than needing to run on a connected device.
+                \item Model training should be responsive on standard browsers ran on computers with low-end modern hardware.
+        \end{itemize}
+\end{itemize}
+
+\section{Logistics}%
+\label{sec:logistics}
+
+\subsection{Timeline}%
+\label{subsec:timeline}
+
+\subsection{Role Delegation}%
+\label{subsec:delegation}
+
+\section{Implementation}%
+\label{sec:implementation}
+
+\subsection{Sensors}%
+\label{subsec:sensors}
+
+\subsection{Models}%
+\label{subsec:label}
+
+\section{Areas of Further Development}%
+\label{sec:development}
+
+\section{Concluding Remarks}%
+\label{sec:conclusion}
+
+
+
+
+
+
+
+
+
+
+\end{document}
