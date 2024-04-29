@@ -5,6 +5,10 @@
 *.out
 *.toc
 *.aux
+*.bbl
+*.blg
+*.dvi
+*.ps
 *.synctex.gz
 *.el
 .auctex-auto/
