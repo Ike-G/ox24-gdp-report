@@ -17,7 +17,7 @@
   {\Large \textsc{Group Design Practical}\par}\vspace{0.5cm}
   {\large \textsc{Group 14}\par}\vspace{0.7cm}
   {\Huge Machine Learning in the Browser with the BBC Micro:Bit\par}\vspace{0.8cm}
-  {\large Ike Glassbrook\footnote{\href{mailto:isaac.glassbrook@lmh.ox.ac.uk}{isaac.glassbrook@lmh.ox.ac.uk}}, Louis-Emile Ploix\footnote{\href{mailto:louis-emile.ploix@stcatz.ox.ac.uk}{louis-emile.ploix@stcatz.ox.ac.uk}}, Joseph Simkin\footnote{\href{mailto:joseph.simkin@some.ox.ac.uk}{joseph.simkin@some.ox.ac.uk}}, Alikhan Murat\footnote{\href{mailto:alikhan.murat@magd.ox.ac.uk}{alikhan.murat@magd.ox.ac.uk}}, Andy van Horssen\footnote{\href{mailto:andy.vanhorssen@sjc.ox.ac.uk}{andy.vanhorssen@sjc.ox.ac.uk}}, and Ewan Hawkrigg\footnote{\href{mailto:ewan.hawkrigg@keble.ox.ac.uk}{ewan.hawkrigg@keble.ox.ac.uk}}\par}\vspace{0.7cm}
+  {\large Louis-Emile Ploix\footnote{\href{mailto:louis-emile.ploix@stcatz.ox.ac.uk}{louis-emile.ploix@stcatz.ox.ac.uk}}, Ike Glassbrook\footnote{\href{mailto:isaac.glassbrook@lmh.ox.ac.uk}{isaac.glassbrook@lmh.ox.ac.uk}}, Joseph Simkin\footnote{\href{mailto:joseph.simkin@some.ox.ac.uk}{joseph.simkin@some.ox.ac.uk}}, Alikhan Murat\footnote{\href{mailto:alikhan.murat@magd.ox.ac.uk}{alikhan.murat@magd.ox.ac.uk}}, Andy van Horssen\footnote{\href{mailto:andy.vanhorssen@sjc.ox.ac.uk}{andy.vanhorssen@sjc.ox.ac.uk}}, and Ewan Hawkrigg\footnote{\href{mailto:ewan.hawkrigg@keble.ox.ac.uk}{ewan.hawkrigg@keble.ox.ac.uk}}\par}\vspace{0.7cm}
   {\large Internal supervisor: Qian Xie\par \vspace{0.3cm} External supervisor: Robert Knight \par}\vspace{1cm}
   {\Large May 2024}
 \end{titlepage}
@@ -31,6 +31,17 @@ The Group Design Practical is a course taken by all 2nd year undergraduate stude
 
 \subsection{Technical context}%
 \label{subsec:context}
+
+Our project is based on a machine learning tool developed by researchers at the Centre for Computational Thinking and Design at Aarhus University. This tool is publicly deployed at \url{https://ml-machine.org}, with its source code available at \url{https://github.com/microbit-foundation/cctd-ml-machine}. Our project is a fork of this repository, extending the existing project. \\
+
+ML-Machine is an application for users with access to a physical micro:bit device to train a machine learning model that uses the micro:bit's sensors as input data. The user is given a 3 step process:
+\begin{enumerate}
+        \item Named `Gestures' are added, for the trained model to eventually use as classification categories. The user then adds to each gesture several recordings of the accelerometer that correspond to the particular gesture. Alternatively, they can use the example dataset, containing the categories `shake' (with recordings of the micro:bit being shook), `still' (with recordings of the micro:bit not moving), and `circle' (with recordings of the micro:bit being moved in a circle).
+  \item The user trains a model -- either a dense layers model, or a k-nearest neighbours model -- to classify the data. The recordings are pre-processed using a set of filters, which build the feature set. Before training, the user may select in particular which filters they would like to use.
+        \item The micro:bit then has its sensors periodically polled in order to predict, of the labelled gestures, the one most similar to its current movement.
+\end{enumerate}
+
+The web application is written using the Svelte framework\footnote{\url{https://svelte.dev}}, acting essentially as an HTML template language. The micro:bit itself requires additional drivers to interface with the application, as first a bluetooth connection must be established, and then the appropriate sensor data must be streamed to the application. These are written in C++, and then converted into \verb|.hex| files, which users can install on their micro:bits in order to allow this procedure to work. Both models are trained in the browser using TensorFlow.js\footnote{\url{https://www.tensorflow.org/js}}. \\
 
 % Detail the current state, explaining the work of Aarhus University
 % Explain the initial build of the project
@@ -50,7 +61,7 @@ In consideration of the existing context, the specifications set out by Micro:Bi
         \begin{itemize}
                 \item This network should be capable of predicting on simple patterns with reasonable accuracy.
                 \item The technical details of the network should be of pedagogical value, in addition to being amenable to high-level explanation.
-                \item The trained model should be of a size that could fit on the micro:bit itself, rather than needing to run on a connected device.
+                \item The trained model should be of a size that could fit on the micro:bit itself, rather than needing to run on a connected device\footnote{The Micro:Bit team have expressed a desire to run the prediction models directly on the micro:bit in future, rather than in the browser, allowing for the model to be stored independently of the application. This was not itself within the scope of our specification however.}.
                 \item Model training should be responsive on standard browsers ran on computers with low-end modern hardware.
         \end{itemize}
 \end{itemize}
@@ -58,8 +69,14 @@ In consideration of the existing context, the specifications set out by Micro:Bi
 \section{Logistics}%
 \label{sec:logistics}
 
+This section describes the timeline of our development, and how we went about structuring the delegation of work.
+
 \subsection{Timeline}%
 \label{subsec:timeline}
+
+%\begin{itemize}
+%        \item February 2nd -- First meeting with both supervisors. The project and existing code were explained, with directions given to relevant tools. D
+%\end{itemize}
 
 \subsection{Role Delegation}%
 \label{subsec:delegation}
@@ -67,25 +84,22 @@ In consideration of the existing context, the specifications set out by Micro:Bi
 \section{Implementation}%
 \label{sec:implementation}
 
+
+
 \subsection{Sensors}%
 \label{subsec:sensors}
 
-\subsection{Models}%
-\label{subsec:label}
+\subsubsection{Magnetometer}
+
+\subsubsection{}
+
+\subsection{Mixture of Experts Model}%
+\label{subsec:moe}
 
 \section{Areas of Further Development}%
 \label{sec:development}
 
 \section{Concluding Remarks}%
 \label{sec:conclusion}
-
-
-
-
-
-
-
-
-
 
 \end{document}
