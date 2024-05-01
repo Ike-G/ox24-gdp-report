@@ -43,7 +43,7 @@ ML-Machine is an application for users with access to a physical micro:bit devic
         \item The micro:bit then has its sensors periodically polled in order to predict, of the labelled gestures, the one most similar to its current movement.
 \end{enumerate}
 
-The web application is written using the Svelte framework\footnote{\url{https://svelte.dev}}, acting essentially as an HTML template language. The micro:bit itself requires additional drivers to interface with the application, as first a bluetooth connection must be established, and then the appropriate sensor data must be streamed to the application. These are written in C++, and then converted into \verb|.hex| files, which users can install on their micro:bits in order to allow this procedure to work. Both models are trained in the browser using TensorFlow.js\footnote{\url{https://www.tensorflow.org/js}}. \\
+The web application is written using the Svelte framework~\cite{svelte}, acting essentially as an HTML template language. The micro:bit itself requires additional drivers to interface with the application, as first a bluetooth connection must be established, and then the appropriate sensor data must be streamed to the application. These are written in C++, and then converted into \verb|.hex| files, which users can install on their micro:bits in order to allow this procedure to work. Both models are trained in the browser using TensorFlow.js~\cite{tensorflowjs}. \\
 
 % Detail the current state, explaining the work of Aarhus University
 % Explain the initial build of the project
@@ -122,29 +122,40 @@ Ultimately, the group eventually decided not to pursue training on the microphon
 \label{sec:implementation}
 
 \subsection{Streaming of new sensors from the micro:bit}%
-\label{subsec:label}
+\label{subsec:streaming}
+We added support for two new sensors to the application: The magnetometer and the light sensor. In each case the sensor data needed to be sampled on the micro:bit and sent over bluetooth to the browser which is using the Web Bluetooth API ~\cite{bluetoothapi}. The magnetometer was straightforward in that it has a dedicated Bluetooth Service ~\cite{microbitservices}, an API for which is provided by the Lancaster Universitiy micro:bit Runtime ~\cite{magnetometerservice}. Light sensing has no associated bluetooth service, so we sent the sampled data manually instead: To do this we start a 'fiber' (a lightweight thread) when the micro:bit boots. This fiber repeatedly samples the environment brightness, sends this to the UART and sleeps for a few milliseconds.
+
+For both sensors, the incoming data in the browser will be parsed, normalised and finally sent to an associated LiveData buffer. The LiveData buffers act as the sources of data for several other components of the application.
+
+\subsection{Normalisation of data}%
+\label{subsec:datanorm}
+The data receieved by the browser will be the raw data as read by the microbit. This means it needs to be processed before it can be fed into other regions of the application which expect values to be of a specific range. In particular the magnetometer presented difficulties in it's sensitivity and discontinuity at times.
+
+Our initial attempt was a straightforward division into the required range. This was extremely sensitive, but also jumped discontinuously at times. We subsequently tried a logarithmic scaling, but this suffered from largely the same problems. We then realised that dropping the sign of each component of the vector dealt with the discontinuous jumps. This suggested that we were treating the data as signed when it should have been unsigned, but this does not match with any of the internals or documentation of the micro:bit runtime. This too remained incredibly sensitive to even small movements. Finally, we settled on taking the \verb|atan2| of the absolute of each pair of components. This is nice in that it has a physical interpretation: the x component would be the compass heading, and the \verb|y|, \verb|z| components would be equivalents on other axis.
+
+\subsection{Visualisation of new sensors}%
+\label{subsec:sensorvis}
 
 \subsection{Sensor choice in the UI}%
-\label{subsec:label}
+\label{subsec:sensorchoice}
+After discussion with the micro:bit team it was decided that we wanted to allow the user of the application to be able to select which combination of sensors they wanted to be able to train the model with. It was important that this was done without compromising UX, in particular we did not want to force the user to make a decision they did not necessarily understand at the time. This was accomplished by adding a new page to the start of the pipeline the user follows, in which the user was given a clear choice of options with sensible defaults and help options if they wanted them. If no sensors were selected the user would be unable to train or record any gestures, and would instead be invited to do so. We also added indicators to each stage of the pipeline to help the user understand which stages were using which sensors. This is a something we found to be a problem when testing the application ourselves. Finally we decided that if the sensor selection was changed we would clear the currently trained model to ensure that confusion over what was being used was completely avoided.
 
 % includes filter adaptation
 
 \subsection{Visualisation of new sensors}%
 \label{subsec:sensorvis}
+The web application displays a graph of the data being recieved in the browser from the micro:bit. This initially just contained the \verb|x|, \verb|y|, \verb|z| components of the accelerometer. We found that after adding the magnetometer and light sensor to the graph it became quite difficult to read, with now 7 lines displayed on the same graph. To deal with this we split the graph into three smaller graphs, one for each sensor, stacked on top of one another. This is much clearer to the user. We also now gray out the graphs not currently selected. Note that this does not mean that the live data isn't being rendered anyway. This distinction is important to help indicate to the user that the application is recording data for gestures from each sensor regardless of whether it is currently being used. This means that the user can change the sensor selection without re-recording data.
 
 \subsection{Application deployment}%
 \label{subsec:deployment}
-
-\subsection{Normalisation of data}%
-\label{subsec:datanorm}
-
-\subsection{Mixture of Experts Model}%
-\label{subsec:moe}
 
 \section{Areas of Further Development}%
 \label{sec:development}
 
 \section{Concluding Remarks}%
 \label{sec:conclusion}
+
+\bibliographystyle{IEEETran}
+\raggedright\bibliography{main}
 
 \end{document}
