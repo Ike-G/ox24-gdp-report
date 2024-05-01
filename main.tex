@@ -83,12 +83,40 @@ This section describes the timeline of our development, and how we went about st
         \item 3rd March -- Project repository fork was created at \url{https://github.com/Ike-G/ox24-cctd-ml-machine}.
         \item 5th March -- Initial internal meeting to organise plans for initial development over the Hilary vacation. Plans were set to have weekly internal meetings, and weekly external meetings, on Mondays and Tuesdays respectively. An initial role distribution was decided.
         \item 9th March -- Beginning of Hilary vacation.
-        \item 12th March --
-
+        \item 12th March -- Updated drivers to expose the magnetometer service. Consideration of initial ideas for new ML models.
+        \item 18th March -- Introduced functionality to work with multiple sensor types, including addition of sensor visualisations.
+        \item 24th March -- Improvements to magnetometer preprocessing.
+        \item 25th March -- Implementation of ML training with multiple sensors.
+        \item 31st March -- Implementation of filter UI with multiple sensors.
+        \item 3rd April -- Deployed project as web application via Cloudflare.
+        \item 7th April -- Added fully functional Mixture of Experts model.
+        \item 9th April -- Work on implementing audio as a new sensor put to the side, focus placed instead on researching future solutions.
+        \item 13th April -- Implemented sensor selection in the UI.
+        \item 15th April -- Start of 0th week: added the light sensor, using previous work to implement sensor selection, visualisation, filtering, training, and predictions.
+        \item 16th April -- Gave initial demonstration to developers at Aarhus University.
+        \item 28th April -- Finalising quality of life changes. Focus placed on the final report.
 \end{itemize}
 
 \subsection{Role Delegation}%
 \label{subsec:delegation}
+
+Roles were initially distinguished to place focus separately on:
+\begin{itemize}
+  \item Implementing drivers.
+        \begin{itemize}
+          \item Louis -- Magnetometer (done directly through the Magnetometer service).
+          \item Alikhan -- Microphone (done through \verb|UART|).
+        \end{itemize}
+  \item Joseph -- Implementing a new ML model.
+  \item Ike -- Adding visualisation graphs of new sensors.
+  \item Andy / Ewan -- Testing of existing code / improvements to sensor pre-processing.
+\end{itemize}
+
+As the project progressed, it was quickly identified that significant alterations to existing code were necessary to implement multiple sensors. Ike dealt with this primarily once basic visualisation had been dealt with. Additionally, Louis was able to implement the magnetometer driver very on in the process, and consequently quickly moved to working on pre-processing and testing. Later down the line the multisensor implementation required more extensive UI, which Ike and Louis dealt with together. \\
+
+Due to the size of the job, after deciding with the rest of the team on a Mixture of Experts model as the best option, Joseph spent most of the project working on developing and upgrading the model. As part of this, he worked in conjunction with those developing new sensors as the processing methods were changed, and new sensors were implemented. \\
+
+Ultimately, the group eventually decided not to pursue training on the microphone sensor, due to audio data presenting far more complex problems than had previously been dealt with in the other sensors. Alikhan thus refocused his work from that point on researching means of circumventing our problems for a future implementation by the original project's developers. Instead of audio data, Louis implemented a light sensor later on in the project, meaning the project concluded with three available sensor types.
 
 \section{Implementation}%
 \label{sec:implementation}
