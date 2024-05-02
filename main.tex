@@ -105,7 +105,7 @@ Roles were initially distinguished to place focus separately on:
 \begin{itemize}
   \item Implementing drivers.
         \begin{itemize}
-          \item Louis -- Magnetometer (done directly through the Magnetometer service).
+          \item Louis-Emile -- Light Sensor (over \verb|UART|) and Magnetometer (done directly through the Magnetometer service).
           \item Alikhan -- Microphone (done through \verb|UART|).
         \end{itemize}
   \item Joseph -- Implementing a new ML model.
@@ -113,11 +113,11 @@ Roles were initially distinguished to place focus separately on:
   \item Andy / Ewan -- Testing of existing code / improvements to sensor pre-processing.
 \end{itemize}
 
-As the project progressed, it was quickly identified that significant alterations to existing code were necessary to implement multiple sensors. Ike dealt with this primarily once basic visualisation had been dealt with. Additionally, Louis was able to implement the magnetometer driver very on in the process, and consequently quickly moved to working on pre-processing and testing. Later down the line the multisensor implementation required more extensive UI, which Ike and Louis dealt with together. \\
+As the project progressed, it was quickly identified that significant alterations to existing code were necessary to implement multiple sensors. Ike dealt with this primarily once basic visualisation had been dealt with. Additionally, Louis-Emile was able to implement the magnetometer driver very on in the process, and consequently quickly moved to working on pre-processing and testing. Later down the line the multisensor implementation required more extensive UI, which Ike and Louis-Emile dealt with together. \\
 
 Due to the size of the job, after deciding with the rest of the team on a Mixture of Experts model as the best option, Joseph spent most of the project working on developing and upgrading the model. As part of this, he worked in conjunction with those developing new sensors as the processing methods were changed, and new sensors were implemented. \\
 
-Ultimately, the group eventually decided not to pursue training on the microphone sensor, due to audio data presenting far more complex problems than had previously been dealt with in the other sensors. Alikhan thus refocused his work from that point on researching means of circumventing our problems for a future implementation by the original project's developers. Instead of audio data, Louis implemented a light sensor later on in the project, meaning the project concluded with three available sensor types.
+Ultimately, the group eventually decided not to pursue training on the microphone sensor, due to audio data presenting far more complex problems than had previously been dealt with in the other sensors. Alikhan thus refocused his work from that point on researching means of circumventing our problems for a future implementation by the original project's developers. Instead of audio data, Louis-Emile implemented a light sensor later on in the project, meaning the project concluded with three available sensor types.
 
 \section{Implementation}%
 \label{sec:implementation}
