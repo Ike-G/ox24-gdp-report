@@ -3,10 +3,16 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
 % \usepackage{setspace}
 % \onehalfspacing
 % \allowdisplaybreaks
 %
+% Define block styles
+\tikzstyle{block} = [rectangle, draw, text width=6em, text centered, rounded corners, minimum height=3em]
+\tikzstyle{line} = [draw, -latex']
+
 
 \begin{document}
 \begin{titlepage}
@@ -174,10 +180,58 @@ So as to help us streamline the development process, and ensure that errors were
 
 By having the project actively deployed, we were both able to easily give the micro:bit developers access to our work concurrently, as well as to immediately identify holes in our changes.
 
+% for implementation
+\subsection{Mixture Of Experts}
+
+\begin{figure}[h]
+  \centering
+  \caption{Comparison of the 2 layer dense neural network architecture (left) and the mixture of experts architecture (right)}
+  \label{fig:moe}
+\begin{minipage}{0.3\textwidth}
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node [block] (start) {Input};
+    \node [block, below of=start] (step1) {Dense Layer 1};
+    \node [block, below of=step1] (step2) {Dense Layer 2};
+    \node [block, below of=step2] (end) {Output};
+    % Draw edges
+    \path [line] (start) -- (step1);
+    \path [line] (step1) -- (step2);
+    \path [line] (step2) -- (end);
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node [block] (start) {Input};
+    \node [block, below of=start, node distance=2cm] (node2) {Gating Network};
+    \node [block, left of=node2, node distance=3cm] (node1) {Expert Network 1};
+    \node [block, right of=node2, node distance=3cm] (node3) {Expert Network 2};
+    \node [block, below of=node2, node distance=2cm] (end) {Gating Multiplier};
+    \node [block, below of=end, node distance=2cm] (output) {Output};
+    % Draw edges
+    \path [line] (start) -- (node1);
+    \path [line] (start) -- (node2);
+    \path [line] (start) -- (node3);
+    \path [line] (node1) -- (end);
+    \path [line] (node2) -- (end);
+    \path [line] (node3) -- (end);
+    \path [line] (end) -- (output);
+\end{tikzpicture}
+\end{minipage}
+\end{figure}
+
+Following the request from the Micro:bit team to possibly add alternative machine learning methods, we decided to add a Mixture of Experts network as this seemed to fit well with the qualities of a good method to investigate. This model appears alongside the pre-existing models in the training page and works as multiple neural networks working alongside each other, and their decisions being combined in an intelligent way to form one final decision (see figure~\ref{fig:moe}). \\
+
+%\vspace{8pt}\\
+%\raggedright
+This was done by defining a custom TensorFlow layer which took a weighted sum of the experts predictions based on the weights the gating layer assigned. The final network was capable of making predictions comparable to the already existing dense network and could accurately predict gestures. However we found that it required much more training data than the simpler network and also required an element of luck during training.
+
+%for future
 \section{Areas of Further Development}%
 \label{sec:development}
 
-While all tasks as given in the initial specification were ultimately fulfilled, there remain a couple main areas in which the project could continue to develop along the lines that we were given. The most significant of these is in relation to audio processing, which was a project ultimately deemed out of scope relatively late on in development, and therefore we consider a hypothetical implementation below. Also of consideration for future development, leading on from considerations relating to audio, is the potential for modifications to filters in order to improve performance, which were largely left untouched during the development process.
+While all tasks as given in the initial specification were ultimately fulfilled, there remain a couple main areas in which the project could continue to develop along the lines that we were given. The most significant of these is in relation to audio processing, which was a project ultimately deemed out of scope relatively late on in development, and therefore we consider a hypothetical implementation below. Also of consideration for future development, leading on from considerations relating to audio, is the potential for modifications to filters in order to improve performance, which were largely left untouched during the development process. Additionally there are still outstanding modifications to be made to the introduced ML architectures such that they can be placed directly on the micro:bit.
 
 \subsection{Audio processing}%
 \label{subsec:audio}
@@ -213,6 +267,10 @@ After applying the STFT we now have frequency distribution for each segment of t
 Although going by with relatively little comment during the development process, it should be noted that currently all filters are invariant under permutations to time. Thus, while we can consider experiments such as taking higher order statistics of the sensor windows, a key concern is that no model can currently distinguish between processes moving forward in time vs. moving backwards, or indeed account whatsoever for the relative points in time at which events occur. This is particularly relevant for audio data, but also has an impact when we want gestures to represent particular types of changes as opposed states that are constantly occurring within each recording window. \\
 
 Candidate solutions to this could involve introducing specific convolutional filters which may be activated or deactivated (e.g. have a convolution with a linearly increasing / decreasing function). This would also help to introduce a basic explanation of convolutional networks, while still remaining firmly within the domain that the application allows for.
+
+\subsection{Future ML Methods}
+One goal which was not met by the mixture of experts model was to implement a model which is small enough to fit on the micro:bit itself. This could easily be completed by adding a logistic regression model for example which could also be implemented with tensorflow layers. Also, due to the relative simplicity of this method, it may also be more teachable which is again helpful given how this application is to be used.
+
 
 \section{Concluding Remarks}%
 \label{sec:conclusion}
