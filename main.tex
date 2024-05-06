@@ -214,6 +214,14 @@ Although going by with relatively little comment during the development process,
 
 Candidate solutions to this could involve introducing specific convolutional filters which may be activated or deactivated (e.g. have a convolution with a linearly increasing / decreasing function). This would also help to introduce a basic explanation of convolutional networks, while still remaining firmly within the domain that the application allows for.
 
+\section{Ethics and Responsible Innovation}%
+\label{sec:ethics}
+This project is intended to be used in schools with the goal of teaching children about machine learning. The Mixture of Experts model serves that purpose well in that it could easily be explained in an interactive and engaging way. The UX was also designed to be intuitive for those of all technical and economic backgrounds to be able to use. This did however raise questions about privacy with regards to the sensor information we collect, in particular with respect to the possibility of including microphone support. GDPR laws may prevent us from storing audio data of children without very good reason. We would not send such data to any backend since no such backend exists but the data may still have been stored locally in the browser. This contributed to discussions about what types of audio data precisely we should be storing and how much detail that data could contain.
+
+It is unlikely that our product could be used maliciously. While it does provide tools for training models which could themselves potentially be misused, these models are extremely low power and would be not be practical beyond the educational purpose for which they were designed.
+
+This tool would have an almost objectively positive impact overall. It teaches school children about relevant, modern technology in an engaging and visual way. Either ML is good for society and children would benefit from understanding how it works so that they can better use it, or it is not and children should understand its limitations and how it can be misused. In either case this application serves its purpose in teaching children.
+
 \section{Concluding Remarks}%
 \label{sec:conclusion}
 
